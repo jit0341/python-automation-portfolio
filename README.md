@@ -247,8 +247,8 @@ I'm available for:
 - **Collaboration** (Open source, Learning projects)
 
 **Reach me:**
-- 📧 Email: [Your Email]
-- 💼 LinkedIn: [Your Profile]
+- 📧 Email: jitendrablog6@gmail.com
+- 💼 LinkedIn: 
 - 🐙 GitHub: [@jit0341](https://github.com/jit0341)
 - 💻 Upwork/Fiverr: [Coming Soon - Feb 2025]
 
