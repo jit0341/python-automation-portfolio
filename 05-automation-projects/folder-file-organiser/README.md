@@ -69,3 +69,32 @@ Organization complete!
 
 ### After Automation
 ![After](screenshots/after_run.jpg)
+
+## 💰 Service Pricing
+
+If you need customization:
+- Basic script: ₹500-1000
+- Custom categories: ₹1500-2000
+- GUI version: ₹3000-5000
+- Automated scheduling: ₹2000-3000
+
+Contact: jitendrablog6@gmail.com
+
+## 💬 User Feedback
+
+> "Saved me hours every week!" - Client Name
+
+> "Perfect for my Downloads folder" - Another Client
+
+(Add real testimonials जब clients आएंगे)
+
+## ❓ FAQ
+
+**Q: Does it delete any files?**
+A: No, it only moves files to folders. Safe operation.
+
+**Q: Can I undo the organization?**
+A: Yes, manually move files back or add undo feature.
+
+**Q: Works on Windows/Mac/Linux?**
+A: Yes, cross-platform compatible.
