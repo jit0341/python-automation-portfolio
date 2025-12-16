@@ -31,6 +31,8 @@ Documents: 2 files
 Videos: 1 file
 Organization complete!
 
+(Note: Output shown is a sample. Logging can be added on request.)
+
 3. Supported File Types:
 ## Supported File Types
 
@@ -42,6 +44,8 @@ Organization complete!
 | Audio | .mp3, .wav, .flac |
 | Archives | .zip, .rar, .7z |
 | Code | .py, .js, .html, .css |
+
+Additional categories can be added on request.
 
 ## Tools Used
 - Python
@@ -86,7 +90,9 @@ Contact: jitendrablog6@gmail.com
 
 > "Perfect for my Downloads folder" - Another Client
 
-(Add real testimonials जब clients आएंगे)
+(Sample feedback – real testimonials will be added after client delivery)
+
+
 
 ## ❓ FAQ
 
