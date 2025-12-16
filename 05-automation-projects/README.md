@@ -26,3 +26,4 @@ based on file types (PDF, Images, Documents, Videos, etc.).
 ## Future Improvements
 - Custom folder rules
 - GUI version
+  
