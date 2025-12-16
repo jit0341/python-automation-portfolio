@@ -11,7 +11,7 @@ It helps users keep their folders clean and structured automatically.
 
 ## Tools Used
 - Python
-- os / pathlib modules
+- os / shutil
 
 ## How to Run
 1. Place the script inside the target folder
