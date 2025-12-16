@@ -26,3 +26,10 @@ based on file types (PDF, Images, Documents, Videos, etc.).
 ## Future Improvements
 - Custom folder rules
 - GUI version
+- ## Screenshots
+
+### Before Automation
+![Before](screenshots/before_run.jpg)
+
+### After Automation
+![After](screenshots/after_run.jpg)
