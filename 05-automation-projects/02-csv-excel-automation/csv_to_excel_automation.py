@@ -23,10 +23,18 @@ def load_csv(path):
 def clean_data(df):
     """Clean dataframe based on rules."""
     initial_rows = len(df)
-
+    
+    # Remove duplicate rows
+    df_clean = df.drop_duplicates()
+    duplicates_removed = initial_rows - len(df_clean)
+    
+    # Remove rows with missing names (assuming 'Name' column exists)
+    df_final = df_clean.dropna(subset=['Name'])
+    missing_names_removed = len(df_clean) - len(df_final)
+    
+    return df_final, duplicates_removed, missing_names_removed, initial_rows
 
 def csv_to_excel_automation():
-
     """
     CSV to Excel Automation Script with Error Handling
     - Reads CSV data
@@ -60,18 +68,16 @@ def csv_to_excel_automation():
 
         # Data Cleaning
         print("\n🧹 Cleaning data...")
-
-        df, duplicates_removed, missing_names_removed, initial_rows = clean_data(df)
+        df, duplicates_removed, missing_names_removed, _ = clean_data(df)
         
-        # Remove duplicate rows
+        # Print cleaning summary
         print(f"   - Duplicates removed: {duplicates_removed}")
         print(f"   - Missing names removed: {missing_names_removed}")
         print(f"   - Final row count: {len(df)}")
     
-        return df, duplicates_removed, missing_names_removed, initial_rows
         # Display cleaned data
-        print("\n✨ Cleaned Data:")
-        print(df)
+        print("\n✨ Cleaned Data (First 5 rows):")
+        print(df.head())
         
         # Export to Excel
         print(f"\n💾 Exporting to '{output_file}'...")
