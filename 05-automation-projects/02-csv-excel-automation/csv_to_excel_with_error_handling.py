@@ -1,7 +1,32 @@
 import pandas as pd
 import os
 
+CLIENT_NAME = "ABC Traders"
+REPORT_TITLE = "Monthly Sales Report"
+INPUT_FILE = "data/sales_data.csv"
+OUTPUT_FILE = "clean_sales_report.xlsx"
+
+def load_csv(path):
+    """Load CSV file safely"""
+    if not os.path.exists(path):
+        print(f" File not found: {path}")
+        return None
+
+    df = pd.read_csv(path)
+
+    if df.empty:
+        print(" CSV file is empty.")
+        return None
+
+    return df
+
+def clean_data(df):
+    """Clean dataframe based on rules."""
+    initial_rows = len(df)
+
+
 def csv_to_excel_automation():
+
     """
     CSV to Excel Automation Script with Error Handling
     - Reads CSV data
@@ -11,8 +36,8 @@ def csv_to_excel_automation():
     """
     
     # File paths
-    input_file = "data/sales_data.csv"
-    output_file = "clean_sales_report.xlsx"
+    input_file = INPUT_FILE
+    output_file = OUTPUT_FILE
     
     try:
         # Check if input file exists
@@ -23,29 +48,27 @@ def csv_to_excel_automation():
         
         # Load CSV data
         print(f"📂 Loading data from '{input_file}'...")
-        df = pd.read_csv(input_file)
+        df = load_csv(input_file)
+        if df is None:
+            return
         initial_rows = len(df)
         print(f"✅ Loaded {initial_rows} rows successfully")
         
         # Display raw data
         print("\n📊 Raw Data (First 5 rows):")
         print(df.head())
-        
+
         # Data Cleaning
         print("\n🧹 Cleaning data...")
+
+        df, duplicates_removed, missing_names_removed, initial_rows = clean_data(df)
         
         # Remove duplicate rows
-        df = df.drop_duplicates()
-        duplicates_removed = initial_rows - len(df)
-        
-        # Remove rows where Name is missing
-        df = df.dropna(subset=["Name"])
-        missing_names_removed = initial_rows - duplicates_removed - len(df)
-        
         print(f"   - Duplicates removed: {duplicates_removed}")
         print(f"   - Missing names removed: {missing_names_removed}")
         print(f"   - Final row count: {len(df)}")
-        
+    
+        return df, duplicates_removed, missing_names_removed, initial_rows
         # Display cleaned data
         print("\n✨ Cleaned Data:")
         print(df)
