@@ -15,7 +15,7 @@ def generate_pdf_report():
     c = canvas.Canvas(output_file, pagesize = A4)
     width,height = A4
     # Write title
-    c.setfont("Helvetica-Bold",18)
+    c.setFont("Helvetica-Bold",18)
     # font select size=18
     c.drawString(50,height-50 ," Sales Summary Report")
     # (x, y, text) 
@@ -62,9 +62,9 @@ def generate_pdf_report():
             c.save()
             print(f"✅ PDF generated successfully: {output_file}")
 
-        if __name__ == "__main__":
-            print("----Generating PDF report------")
-            generate_pdf_report()
+if __name__ == "__main__":
+    print("----Generating PDF report------")
+    generate_pdf_report()
 
 
 
