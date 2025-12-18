@@ -1,6 +1,26 @@
 This project demonstrates real-world CSV  cleaning and Excel reporting
 with logging and error handling suitable  for client automation tasks.
 
+## Features Added
+
+✅ **Robust Error Handling:**
+- File existence validation
+- Empty data detection
+- Column validation
+- Permission error handling
+- User-friendly error messages
+
+✅ **Progress Tracking:**
+- Row count before/after cleaning
+- Duplicate removal count
+- Missing data removal count
+- Success rate calculation
+
+✅ **Professional Output:**
+- Clear status messages
+- Data preview
+- Detailed summary report
+
 ## Screenshots
 
 ### Before (Raw CSV)
