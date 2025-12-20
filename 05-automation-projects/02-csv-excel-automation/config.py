@@ -18,6 +18,7 @@ COLUMN_ALIASES = {
 }
 
 
+
 # ---------------- COLUMN TRANSFORM RULES ----------------
 
 # Rename columns AFTER normalization
@@ -33,4 +34,10 @@ EXTRA_COLUMNS = {
     "ProcessedDate": "AUTO"
 }
 
+# Columns to drop (client specific)
+DROP_COLUMNS = ["City"]
 
+# Final column rename before export
+FINAL_COLUMN_RENAME = {
+    "Name": "CustomerName"
+}
