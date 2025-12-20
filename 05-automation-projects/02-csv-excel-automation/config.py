@@ -17,6 +17,7 @@ COLUMN_ALIASES = {
     "City": ["city", "Location", "location"]
 }
 
+
 # ---------------- COLUMN TRANSFORM RULES ----------------
 
 # Rename columns AFTER normalization
@@ -31,3 +32,5 @@ COLUMNS_TO_DROP = ["City"]
 EXTRA_COLUMNS = {
     "ProcessedDate": "AUTO"
 }
+
+

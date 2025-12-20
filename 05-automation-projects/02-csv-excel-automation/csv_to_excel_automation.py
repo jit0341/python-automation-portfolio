@@ -1,3 +1,4 @@
+
 import pandas as pd
 import os
 import logging
@@ -26,39 +27,38 @@ def load_csv(path):
     if not os.path.exists(path):
         logging.error(f"Input file not found: {path}")
         print(f"❌ File not found: {path}")
-
         return None
 
-    df = pd.read_csv(path)
-
-    if df.empty:
-        logging.error("CSV file is empty")
-        print("❌ CSV file is empty")
+    try:
+        df = pd.read_csv(path)
+        
+        if df.empty:
+            logging.error("CSV file is empty")
+            print("❌ CSV file is empty")
+            return None
+        
+        return df
+    except Exception as e:
+        logging.error(f"Error reading CSV: {str(e)}")
+        print(f"❌ Error reading CSV: {str(e)}")
         return None
 
-    return df
-# -------------COLUMN NORMALISE ------------------------------
+# ---------------- COLUMN NORMALISE ----------------
 def normalize_columns(df, column_aliases):
     """
-    Normalize column names using aliases (case-insensitive + strip)
+    Rename columns to standard names using aliases
     """
-    df.columns = [c.strip() for c in df.columns]
-
     renamed = {}
 
     for standard_col, aliases in column_aliases.items():
         for col in df.columns:
-            if col.lower() == standard_col.lower():
+            if col in aliases:
                 renamed[col] = standard_col
-
-            for alias in aliases:
-                if col.lower() == alias.lower():
-                    renamed[col] = standard_col
+                break  # Stop after first match
 
     df = df.rename(columns=renamed)
-
-    logging.info(f"Columns after normalization: {list(df.columns)}")
     return df
+
 # ---------------- COLUMN VALIDATION ----------------
 def validate_columns(df, required_columns):
     missing = [c for c in required_columns if c not in df.columns]
@@ -66,6 +66,7 @@ def validate_columns(df, required_columns):
     if missing:
         logging.error(f"Missing required columns: {missing}")
         print(f"❌ Missing required columns: {missing}")
+        print(f"📋 Available columns: {list(df.columns)}")
         print("💡 Please fix the CSV and try again.")
         return False
 
@@ -76,34 +77,17 @@ def validate_columns(df, required_columns):
 def clean_data(df):
     initial_rows = len(df)
 
+    # Remove duplicates
     df = df.drop_duplicates()
     duplicates_removed = initial_rows - len(df)
 
+    # Remove rows with missing names
     df = df.dropna(subset=["Name"])
     missing_names_removed = initial_rows - duplicates_removed - len(df)
 
     return df, duplicates_removed, missing_names_removed, initial_rows
 
 # ---------------- MAIN AUTOMATION ----------------
-def apply_column_transformations(df, rename_rules, drop_columns, extra_columns):
-    """
-    Apply client-specific column transformations
-    """
-
-    # Rename columns
-    df = df.rename(columns=rename_rules)
-
-    # Drop unwanted columns (ignore if missing)
-    df = df.drop(columns=drop_columns, errors="ignore")
-
-    # Add extra columns
-    for col, value in extra_columns.items():
-        if value == "AUTO":
-            df[col] = pd.Timestamp.now().strftime("%Y-%m-%d")
-        else:
-            df[col] = value
-
-    return df
 def csv_to_excel_automation():
     args = parse_arguments()
     client = args.client
@@ -113,36 +97,40 @@ def csv_to_excel_automation():
     logging.info(f"Automation started for client: {client}")
     print(f"🚀 Processing started for client: {client}")
 
+    # Load CSV
     df = load_csv(input_file)
     if df is None:
         return
+
+    # Normalize column names
     df = normalize_columns(df, COLUMN_ALIASES)
-    # 🔴 THIS IS THE KEY STEP
+
+    # Validate required columns
     if not validate_columns(df, REQUIRED_COLUMNS):
         return
 
     print("\n📊 Raw Data:")
     print(df.head())
 
+    # Clean data
     df, dup_removed, missing_removed, initial_rows = clean_data(df)
 
-from config import COLUMN_RENAME_RULES, COLUMNS_TO_DROP, EXTRA_COLUMNS
-
-df = apply_column_transformations(
-    df,
-    COLUMN_RENAME_RULES,
-    COLUMNS_TO_DROP,
-    EXTRA_COLUMNS
-)
     logging.info(f"Duplicates removed: {dup_removed}")
     logging.info(f"Missing names removed: {missing_removed}")
     logging.info(f"Final rows: {len(df)}")
 
     print("\n🧹 Cleaning Summary")
+    print(f"Initial rows: {initial_rows}")
     print(f"Duplicates removed: {dup_removed}")
     print(f"Missing names removed: {missing_removed}")
     print(f"Final rows: {len(df)}")
 
+    # Create output directory if it doesn't exist
+    output_dir = os.path.dirname(output_file)
+    if output_dir and not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    # Export to Excel
     df.to_excel(output_file, index=False, engine="openpyxl")
     logging.info(f"Excel exported: {output_file}")
 
@@ -152,3 +140,4 @@ df = apply_column_transformations(
 # ---------------- RUN ----------------
 if __name__ == "__main__":
     csv_to_excel_automation()
+
