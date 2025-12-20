@@ -8,10 +8,26 @@ OUTPUT_FILE = "clean_sales_report.xlsx"
 
 REQUIRED_COLUMNS = ["Name", "Product", "Amount", "City"]
 
-# Acceptable alternate column names
+# Acceptable alternate column name
+
 COLUMN_ALIASES = {
-    "Name": ["Name", "CustomerName", "ClientName"],
-    "Product": ["Product", "Item"],
-    "Amount": ["Amount", "Price", "Total"],
-    "City": ["City", "Location"]
+    "Name": ["CustomerName", "Customer Name", "customer_name", "NAME", "name"],
+    "Product": ["product", "Item", "item_name"],
+    "Amount": ["amount", "Price", "Total", "total_amount"],
+    "City": ["city", "Location", "location"]
+}
+
+# ---------------- COLUMN TRANSFORM RULES ----------------
+
+# Rename columns AFTER normalization
+COLUMN_RENAME_RULES = {
+    "Name": "CustomerName"
+}
+
+# Columns to drop
+COLUMNS_TO_DROP = ["City"]
+
+# Extra columns to add (column_name: default_value)
+EXTRA_COLUMNS = {
+    "ProcessedDate": "AUTO"
 }
