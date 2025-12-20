@@ -47,8 +47,6 @@ def load_csv(path):
         print(" CSV file is empty.")
         return None
 
-        missing_columns = [col for col in REQUIRED_COLUMNS if col not in df.columns]
-
         if missing_columns:
             logging.error(f"Missing required columns: {missing_columms}")
             print(f"❌ Missing columns in CSV: {missing_columns}")
@@ -69,10 +67,10 @@ def clean_data(df):
     
     return df_final, duplicates_removed, missing_names_removed, initial_rows
 
-def validate_columms(df,required_columns):
+def validate_columns(df,REQUIRED_COLUMNS):
     """Validates required columns"""
     missing_columns = [col for col in
-    required_columns if col not in df.columns]
+    REQUIRED_COLUMNS if col not in df.columns]
 
     if missing_columns:
         logging.error(f"Missing required columns: {missing_columns}")
@@ -97,13 +95,9 @@ def csv_to_excel_automation():
     input_file = args.input
     output_file = args.output
 
-    REQUIRED_COLUMNS = ["Name", "Product", "Amount", "City"]
-
     logging.info(f"Processing started for client: {CLIENT_NAME}")
 
     # File paths
-    input_file = INPUT_FILE
-    output_file = OUTPUT_FILE
     
     try:
         # Check if input file exists
