@@ -1,10 +1,39 @@
 import pandas as pd
 import os
+import logging
+import argparse
 
-CLIENT_NAME = "ABC Traders"
-REPORT_TITLE = "Monthly Sales Report"
-INPUT_FILE = "data/sales_data.csv"
-OUTPUT_FILE = "clean_sales_report.xlsx"
+logging.basicConfig(
+    filename = "logs/automation.log",
+    level = logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s"
+    )
+
+from config import (
+    CLIENT_NAME,
+    REPORT_TITLE,
+    INPUT_FILE,
+    OUTPUT_FILE,
+    REQUIRED_COLUMNS
+)
+
+def parse_arguments():
+    """Parse Optional CLI arguments"""
+    parser = argparse.ArgumentParser(
+        description = "CSV to Excel Automation")
+    parser.add_argument(
+        "--client",
+        help = "Client name (overrides config)",
+        default= CLIENT_NAME)
+    parser.add_argument(
+        "--input",
+        help= "Input CSV file path",
+        default =INPUT_FILE)
+    parser.add_argument(
+        "--output",
+        help="Output Excel file path",
+        default=OUTPUT_FILE)
+    return parser.parse_args()
 
 def load_csv(path):
     """Load CSV file safely"""
@@ -18,7 +47,13 @@ def load_csv(path):
         print(" CSV file is empty.")
         return None
 
-    return df
+        missing_columns = [col for col in REQUIRED_COLUMNS if col not in df.columns]
+
+        if missing_columns:
+            logging.error(f"Missing required columns: {missing_columms}")
+            print(f"❌ Missing columns in CSV: {missing_columns}")
+            return None
+        return df
 
 def clean_data(df):
     """Clean dataframe based on rules."""
@@ -34,7 +69,22 @@ def clean_data(df):
     
     return df_final, duplicates_removed, missing_names_removed, initial_rows
 
+def validate_columms(df,required_columns):
+    """Validates required columns"""
+    missing_columns = [col for col in
+    required_columns if col not in df.columns]
+
+    if missing_columns:
+        logging.error(f"Missing required columns: {missing_columns}")
+        print(f"Missing required columns: {missing_columns}")
+        print("Please fux the CSV anf try again")
+        return False
+    logging.info("All required columns are present")
+    return True
+
+
 def csv_to_excel_automation():
+
     """
     CSV to Excel Automation Script with Error Handling
     - Reads CSV data
@@ -42,7 +92,15 @@ def csv_to_excel_automation():
     - Removes rows with missing names
     - Exports to clean Excel file
     """
-    
+    args = parse_arguments()
+    client_name = args.client
+    input_file = args.input
+    output_file = args.output
+
+    REQUIRED_COLUMNS = ["Name", "Product", "Amount", "City"]
+
+    logging.info(f"Processing started for client: {CLIENT_NAME}")
+
     # File paths
     input_file = INPUT_FILE
     output_file = OUTPUT_FILE
@@ -59,8 +117,13 @@ def csv_to_excel_automation():
         df = load_csv(input_file)
         if df is None:
             return
+        # Step 4: Column Validation
+        if not validate_columns(df,required_columns):
+            return
+
         initial_rows = len(df)
         print(f"✅ Loaded {initial_rows} rows successfully")
+        logging.info(f"CSV loaded successfully with {initial_rows} rows")
         
         # Display raw data
         print("\n📊 Raw Data (First 5 rows):")
@@ -74,6 +137,9 @@ def csv_to_excel_automation():
         print(f"   - Duplicates removed: {duplicates_removed}")
         print(f"   - Missing names removed: {missing_names_removed}")
         print(f"   - Final row count: {len(df)}")
+        logging.info(f"Duplicates removed: {duplicates_removed}")
+        logging.info(f"Missing names removed: {missing_names_removed}")
+        logging.info(f"Final row count: {len(df)}")
     
         # Display cleaned data
         print("\n✨ Cleaned Data (First 5 rows):")
@@ -83,7 +149,8 @@ def csv_to_excel_automation():
         print(f"\n💾 Exporting to '{output_file}'...")
         df.to_excel(output_file, index=False, engine='openpyxl')
         print(f"✅ Export complete! File saved: {output_file}")
-        
+        logging.info(f"Excel file exported successfully: {output_file}")
+
         # Summary
         print("\n" + "="*50)
         print("📈 AUTOMATION SUMMARY:")
@@ -105,6 +172,7 @@ def csv_to_excel_automation():
         print("💡 Solution: Ensure the CSV file contains data")
         
     except KeyError as e:
+        logging.error(f" Unexpected error occured: {e}")
         print(f"❌ Error: Column not found - {e}")
         print("💡 Solution: Check if 'Name' column exists in your CSV")
         
@@ -118,8 +186,10 @@ def csv_to_excel_automation():
         
     finally:
         print("\n🏁 Script execution completed!")
+        logging.info("Automation finished")
 
 # Run the automation
 if __name__ == "__main__":
     print("🚀 CSV to Excel Automation - Starting...\n")
+    logging.info("Automation started.")
     csv_to_excel_automation()
