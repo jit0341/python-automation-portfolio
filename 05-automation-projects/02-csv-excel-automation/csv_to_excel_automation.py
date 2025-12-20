@@ -78,6 +78,7 @@ def validate_columns(df,REQUIRED_COLUMNS):
         print("Please fux the CSV anf try again")
         return False
     logging.info("All required columns are present")
+    logging.info(f"Validating required columns: {REQUIRED_COLUMNS}")
     return True
 
 
@@ -112,7 +113,7 @@ def csv_to_excel_automation():
         if df is None:
             return
         # Step 4: Column Validation
-        if not validate_columns(df,required_columns):
+        if not validate_columns(df,REQUIRED_COLUMNS):
             return
 
         initial_rows = len(df)
