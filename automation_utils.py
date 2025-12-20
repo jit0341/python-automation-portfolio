@@ -350,3 +350,22 @@ def timer_decorator(func):
         print(f"⏱️ {func.__name__} took {end-start:.2f}s")
         return result
     return wrapper
+
+# Database connection (future)
+def connect_to_db(config):
+    pass
+
+# Email sending (future)
+def send_email_report(to, subject, body, attachment):
+    pass
+
+# Web scraping base (for Project 4)
+def fetch_webpage(url):
+    pass
+
+def parse_html(html):
+    pass
+
+# API calling (future)
+def call_api(url, method, data):
+    pass
