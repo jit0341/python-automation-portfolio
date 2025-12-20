@@ -53,7 +53,8 @@ def load_excel(path, sheet_name=0):
     except Exception as e:
         logging.error(f"Error reading Excel: {str(e)}")
         return None
-    def load_json(path):
+
+def load_json(path):
     """
     Universal JSON loader
     """
@@ -153,9 +154,9 @@ def handle_missing_data(df, strategy='drop', fill_value=None):
     elif strategy == 'fill':
         df = df.fillna(fill_value)
     elif strategy == 'forward':
-        df = df.fillna(method='ffill')
+        df = df.ffill()
     elif strategy == 'backward':
-        df = df.fillna(method='bfill')
+        df = df.bfill()
     
     removed = initial - len(df)
     logging.info(f"Missing data handled ({strategy}): {removed} rows affected")
@@ -164,7 +165,7 @@ def handle_missing_data(df, strategy='drop', fill_value=None):
 
 def normalize_columns(df, column_aliases):
     """
-    Universal column normalizer (from your Project 2!)
+    Universal column normalizer
     """
     renamed = {}
     for standard_col, aliases in column_aliases.items():
@@ -184,7 +185,7 @@ def clean_text_columns(df, columns):
     """
     for col in columns:
         if col in df.columns:
-            df[col] = df[col].str.strip().str.title()
+            df[col] = df[col].astype(str).str.strip().str.title()
     
     return df
 
@@ -214,9 +215,7 @@ def save_to_excel(df, path, sheet_name='Sheet1'):
     Universal Excel saver
     """
     try:
-        # Create directory if doesn't exist
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        
         df.to_excel(path, sheet_name=sheet_name, index=False)
         logging.info(f"Excel saved: {path}")
         print(f"✅ Excel saved: {path}")
@@ -257,8 +256,13 @@ def setup_logging(log_file='logs/automation.log'):
     """
     Universal logging setup
     """
-    os.makedirs(os.path.dirname(log_file), exist_ok=True)
+    if os.path.dirname(log_file):
+        os.makedirs(os.path.dirname(log_file), exist_ok=True)
     
+    # Reset logging handlers to avoid duplicates
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+
     logging.basicConfig(
         filename=log_file,
         level=logging.INFO,
@@ -277,7 +281,6 @@ def generate_summary_report(
 ):
     """
     Universal quality report generator
-    operations = {'duplicates': 5, 'missing': 2, ...}
     """
     success_rate = (final_rows / initial_rows * 100) if initial_rows > 0 else 0
     
@@ -311,7 +314,7 @@ Status: ✅ COMPLETED SUCCESSFULLY
 """
     
     report_path = os.path.join(output_dir, "automation_report.txt")
-    with open(report_path, 'w') as f:
+    with open(report_path, 'w', encoding='utf-8') as f:
         f.write(report)
     
     print(report)
@@ -347,4 +350,3 @@ def timer_decorator(func):
         print(f"⏱️ {func.__name__} took {end-start:.2f}s")
         return result
     return wrapper
-
