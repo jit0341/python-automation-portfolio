@@ -3,6 +3,8 @@ import os
 import logging
 import argparse
 from config import CLIENT_NAME, INPUT_FILE, OUTPUT_FILE, REQUIRED_COLUMNS
+from config import COLUMN_ALIASES
+
 
 # ---------------- LOGGING ----------------
 logging.basicConfig(
@@ -24,6 +26,7 @@ def load_csv(path):
     if not os.path.exists(path):
         logging.error(f"Input file not found: {path}")
         print(f"❌ File not found: {path}")
+
         return None
 
     df = pd.read_csv(path)
@@ -34,7 +37,20 @@ def load_csv(path):
         return None
 
     return df
+# -------------COLUMN NORMALISE ------------------------------
+def normalize_columns(df, column_aliases):
+    """
+    Rename columns to standard names using aliases
+    """
+    renamed = {}
 
+    for standard_col, aliases in column_aliases.items():
+        for col in df.columns:
+            if col in aliases:
+                renamed[col] = standard_col
+
+    df = df.rename(columns=renamed)
+    return df
 # ---------------- COLUMN VALIDATION ----------------
 def validate_columns(df, required_columns):
     missing = [c for c in required_columns if c not in df.columns]
@@ -73,7 +89,7 @@ def csv_to_excel_automation():
     df = load_csv(input_file)
     if df is None:
         return
-
+    df = normalize_columns(df, COLUMN_ALIASES)
     # 🔴 THIS IS THE KEY STEP
     if not validate_columns(df, REQUIRED_COLUMNS):
         return

@@ -8,3 +8,10 @@ OUTPUT_FILE = "clean_sales_report.xlsx"
 
 REQUIRED_COLUMNS = ["Name", "Product", "Amount", "City"]
 
+# Acceptable alternate column names
+COLUMN_ALIASES = {
+    "Name": ["Name", "CustomerName", "ClientName"],
+    "Product": ["Product", "Item"],
+    "Amount": ["Amount", "Price", "Total"],
+    "City": ["City", "Location"]
+}
