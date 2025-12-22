@@ -2,6 +2,12 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
+import sys
+import os
+sys.path.insert(0, os.path.abspath('../..'))
+
+from automation_utils import save_to_csv
+import pandas as pd
 
 
 # Step 1: Fetch webpage
@@ -38,5 +44,15 @@ with open('quotes.csv','w', newline= '', encoding ='utf-8') as f:
 print("✅ Saved to quotes.csv")
 
 
+# After extracting data:
 
+# Create DataFrame
+data = {
+    'Quote': [q.text for q in quotes],
+    'Author': [a.text for a in authors]
+}
+df = pd.DataFrame(data)
+
+# Save using utils
+save_to_csv(df, 'data/quotes.csv')
 
