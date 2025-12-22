@@ -24,6 +24,7 @@ Tablet      3            45000
 
 --------------------------------
 Total Revenue: INR 495000
+--------------------------------
 🧩 Automation Design Pattern (6 Steps)
 
 1. Input Configuration  
