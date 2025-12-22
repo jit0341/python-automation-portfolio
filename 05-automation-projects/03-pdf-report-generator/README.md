@@ -66,7 +66,7 @@ Total Revenue: INR 495000
 
 ## 📁 Project Structure
 
-03-pdf-report-generator/ │ ├── data/ │   └── sales_summary.csv      # Input CSV data │ ├── output/ │   └── sales_report.pdf       # Generated PDF report │ ├── screenshots/ │   └── before_data.jpg        # CSV preview (optional) │ ├── pdf_report2.py             # Main automation script └── README.md
+03-pdf-report-generator/ │ ├── data/ │   └── sales_summary.csv      # Input CSV data │ ├── output/ │   └── sales_report.pdf       # Generated PDF report │ ├── screenshots/ │   └── before_data.jpg        # CSV preview (optional) │ ├── pdf_report.py             # Main automation script └── README.md
 
 ---
 
@@ -81,7 +81,7 @@ Product,Quantity,Revenue Laptop,5,250000 Mobile,10,200000 Tablet,3,45000
 ## ▶️ How to Run
 
 ```bash
-python pdf_report2.py
+python pdf_report.py
 
 Output:
 
