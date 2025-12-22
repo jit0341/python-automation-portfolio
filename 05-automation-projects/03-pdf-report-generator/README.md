@@ -1,196 +1,87 @@
-PDF Sales Report Generator (Python Automation)
+# PDF Sales Report Generator (Python Automation)
 
-This project demonstrates real-world PDF report generation using Python.
+This project demonstrates real-world PDF report generation using Python.  
 It reads sales data from a CSV file and automatically generates a professional PDF summary report with totals.
 
+---
+
+## 🚀 Features
+
+- Reads structured data from CSV  
+- Generates clean, formatted PDF report  
+- Calculates total revenue automatically  
+- Safe to run multiple times (no “generate once” issue)  
+- Well-commented code for learning & maintenance  
 
 ---
-🛡️ Error Handling & Safety
 
-- Verifies input CSV file existence before processing
-- Prevents PDF corruption by saving the canvas only once
-- Safe to re-run multiple times (existing PDF is overwritten)
-- Ensures numeric validation for revenue calculation
-- Gracefully exits if input data is missing or invalid
- 📄 Example Output (PDF Content)
+## 🛡️ Error Handling & Safety
+
+- Verifies input CSV file existence before processing  
+- Prevents PDF corruption by saving the canvas only once  
+- Safe to re-run multiple times (existing PDF is overwritten)  
+- Ensures numeric validation for revenue calculation  
+- Gracefully exits if input data is missing or invalid  
+
+---
+
+## 📄 Example Output (PDF Content)
 
 Sales Summary Report
 
 Product     Quantity     Revenue
---------------------------------
-Laptop      5            250000
-Mobile      10           200000
-Tablet      3            45000
 
---------------------------------
+Laptop      5            250000 Mobile      10           200000 Tablet      3            45000
+
+
+---
+
 Total Revenue: INR 495000
-================================
-🧩 Automation Design Pattern (6 Steps)
 
-1. Input Configuration  
-   - Define CSV input path and PDF output path
-
-2. Input Validation  
-   - Check if CSV file exists before processing
-
-3. Output Setup  
-   - Initialize PDF canvas with A4 layout
-
-4. Core Processing  
-   - Read CSV row-by-row and write data into PDF
-
-5. Business Logic  
-   - Calculate total revenue during iteration
-
-6. Finalization  
-   - Write summary section and save the PDF safely
-💼 Freelance & Real-World Use
-
-This automation script can be customized for:
-- Sales & revenue summary reports
-- Invoice & billing PDF generation
-- Daily / monthly business reports
-- Client-branded PDF deliverables
-
-Typical customization pricing:
-- Basic customization: ₹1000–1500
-- Advanced formatting & branding: ₹2000–3000
-🚀 Features
-
-Reads structured data from CSV
-
-Generates clean, formatted PDF report
-
-Calculates total revenue automatically
-
-Safe to run multiple times (no “generate once” issue)
-
-Well-commented code for learning & maintenance
-
-
+*(Actual output is generated as a formatted PDF)*
 
 ---
 
-📁 Project Structure
+## 🧩 Automation Design Pattern (6 Steps)
 
-03-pdf-report-generator/
-│
-├── data/
-│   └── sales_summary.csv        # Input CSV data
-│
-├── output/
-│   └── sales_report.pdf         # Generated PDF report
-│
-├── screenshots/
-│   └── before_data.jpg          # CSV preview (optional)
-│
-├── pdf_report.py                # Main automation script
-└── README.md
+1. **Input Configuration**  
+   - Define CSV input path and PDF output path  
 
+2. **Input Validation**  
+   - Check if CSV file exists before processing  
+
+3. **Output Setup**  
+   - Initialize PDF canvas with A4 layout  
+
+4. **Core Processing**  
+   - Read CSV row-by-row and write data into PDF  
+
+5. **Business Logic**  
+   - Calculate total revenue during iteration  
+
+6. **Finalization**  
+   - Write summary section and save the PDF safely  
 
 ---
 
-🧾 Input CSV Format
+## 📁 Project Structure
+
+03-pdf-report-generator/ │ ├── data/ │   └── sales_summary.csv      # Input CSV data │ ├── output/ │   └── sales_report.pdf       # Generated PDF report │ ├── screenshots/ │   └── before_data.jpg        # CSV preview (optional) │ ├── pdf_report2.py             # Main automation script └── README.md
+
+---
+
+## 🧾 Input CSV Format
 
 The CSV file must contain the following headers:
 
-Product,Quantity,Revenue
-Laptop,5,250000
-Mobile,10,200000
-Tablet,3,45000
-
+Product,Quantity,Revenue Laptop,5,250000 Mobile,10,200000 Tablet,3,45000
 
 ---
 
-⚙️ How the Script Works (Step-by-Step)
+## ▶️ How to Run
 
-1️⃣ File Validation
-
-if not os.path.exists(input_file):
-    print("❌ CSV file not found.")
-    return
-
-✔ Prevents crash if input file is missing
-
-
----
-
-2️⃣ Canvas Creation (PDF Setup)
-
-c = canvas.Canvas(output_file, pagesize=A4)
-width, height = A4
-
-✔ Initializes PDF document
-✔ A4 page size used for standard reports
-
-
----
-
-3️⃣ Report Title
-
-c.setFont("Helvetica-Bold", 18)
-c.drawString(50, height - 50, "Sales Summary Report")
-
-✔ Large bold heading at the top
-
-
----
-
-4️⃣ Table Header
-
-c.setFont("Helvetica-Bold", 12)
-y = height - 100
-
-✔ Column headings positioned below title
-
-
----
-
-5️⃣ Reading CSV & Writing Rows
-
-with open(input_file, newline='') as file:
-    reader = csv.DictReader(file)
-
-✔ Each CSV row becomes a dictionary
-✔ Revenue is accumulated during iteration
-
-
----
-
-6️⃣ Layout Control (Y-Axis Logic)
-
-y -= 20
-
-✔ Moves cursor down after each row
-✔ Prevents text overlap
-
-
----
-
-7️⃣ Summary Section
-
-c.drawString(50, y - 20, f"Total Revenue: INR{total_revenue}")
-
-✔ Printed after all rows
-✔ Business value section
-
-
----
-
-8️⃣ Final Save (MOST IMPORTANT)
-
-c.save()
-
-✔ Commits PDF to disk
-✔ Must be called once and only once
-✔ Always kept inside the function
-
-
----
-
-▶️ How to Run
-
-python pdf_report.py
+```bash
+python pdf_report2.py
 
 Output:
 
@@ -228,6 +119,29 @@ Client deliverables automation
 
 ---
 
+💼 Freelance & Real-World Use
+
+This automation script can be customized for:
+
+Sales & revenue summary reports
+
+Invoice & billing PDF generation
+
+Daily / monthly business reports
+
+Client-branded PDF deliverables
+
+
+Typical customization pricing:
+
+Basic customization: ₹1000–1500
+
+Advanced formatting & branding: ₹2000–3000
+
+
+
+---
+
 🧰 Technologies Used
 
 Python
@@ -248,5 +162,4 @@ Jitendra Bharti
 Python Automation Developer (PAD)
 Focused on real-world automation & freelancing-ready projects.
 
-
-
+-
