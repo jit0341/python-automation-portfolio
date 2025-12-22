@@ -1,3 +1,6 @@
+
+
+
 #!/usr/bin/env python3
 """
 Professional Web Scraper with Automation Utils
@@ -10,16 +13,15 @@ import pandas as pd
 import time
 from datetime import datetime
 import logging
-
-# FIX THE PATH - Go up ONE level to find automation_utils.py
 import sys
 import os
+import shutil  # ✅ MOVED TO TOP
 
+# FIX THE PATH - Go up TWO levels to find automation_utils.py
 ROOT_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..', '..')
 )
-sys.path.insert(0, ROOT_DIR)  # ✅ NOW CORRECT # ✅ CORRECT PATH
-
+sys.path.insert(0, ROOT_DIR)
 
 # Now import will work!
 from automation_utils import (
@@ -29,7 +31,10 @@ from automation_utils import (
     remove_duplicates
 )
 
-# Import config
+# Import config from current directory
+current_dir = os.path.dirname(__file__)
+sys.path.insert(0, current_dir)
+
 from config import (
     CLIENT_NAME,
     PROJECT_NAME,
@@ -124,7 +129,7 @@ ALL UNIQUE AUTHORS ({df['author'].nunique()}):
 OUTPUT FILES:
 - Data: {output_path}
 - Report: {os.path.join(output_dir, 'report.txt')}
-- Log: {os.path.join(output_dir, LOG_FILE)}
+- Log: {os.path.join(output_dir, 'logs', LOG_FILE)}
 
 {'='*60}
 """
@@ -151,17 +156,6 @@ def main():
     logging.info("="*60)
     logging.info(f"Starting scraping: {PROJECT_NAME}")
     logging.info("="*60)
-
-    # MOVE LOG FILE TO OUTPUT DIRECTORY (SAFE)
-if os.path.exists(LOG_FILE):
-
-    logs_dir = os.path.join(output_dir, 'logs')
-    os.makedirs(logs_dir, exist_ok=True)  # 🔥 IMPORTANT LINE
-
-    log_destination = os.path.join(logs_dir, os.path.basename(LOG_FILE))
-    shutil.move(LOG_FILE, log_destination)
-
-    print(f"📋 Log saved: {log_destination}")
     
     # SCRAPE MULTIPLE PAGES
     all_quotes = []
@@ -203,7 +197,7 @@ if os.path.exists(LOG_FILE):
     # GENERATE STATISTICS
     generate_statistics(df)
     
-    # CREATE OUTPUT DIRECTORY
+    # CREATE OUTPUT DIRECTORY (MUST BE BEFORE MOVING LOG!)
     output_dir = create_output_directory(CLIENT_NAME)
     print(f"\n📁 Output directory: {output_dir}")
     
@@ -212,12 +206,22 @@ if os.path.exists(LOG_FILE):
     save_to_csv(df, output_path)
     print(f"💾 Data saved: {output_path}")
     
-    # MOVE LOG FILE TO OUTPUT DIRECTORY
+    # MOVE LOG FILE TO OUTPUT DIRECTORY (SAFE METHOD)
     if os.path.exists(LOG_FILE):
-        import shutil
-        log_destination = os.path.join(output_dir, LOG_FILE)
-        shutil.move(LOG_FILE, log_destination)
-        print(f"📋 Log saved: {log_destination}")
+        try:
+            # Create logs subdirectory
+            logs_dir = os.path.join(output_dir, 'logs')
+            os.makedirs(logs_dir, exist_ok=True)
+            
+            # Move log file
+            log_destination = os.path.join(logs_dir, os.path.basename(LOG_FILE))
+            shutil.move(LOG_FILE, log_destination)
+            print(f"📋 Log saved: {log_destination}")
+        except Exception as e:
+            print(f"⚠️  Could not move log file: {e}")
+            logging.warning(f"Could not move log file: {e}")
+    else:
+        print(f"⚠️  Log file not found: {LOG_FILE}")
     
     # GENERATE REPORT
     generate_report(df, dup_count, output_dir, output_path)
@@ -230,14 +234,20 @@ if os.path.exists(LOG_FILE):
     print(f"\n🎉 Done! Check the output folder for:")
     print(f"   1. {OUTPUT_FILE} - Your data")
     print(f"   2. report.txt - Detailed report")
-    print(f"   3. {LOG_FILE} - Execution log")
+    print(f"   3. logs/{LOG_FILE} - Execution log")
     print(f"\n{'='*60}\n")
-    print(ROOT_DIR)
-    print(os.listdir(ROOT_DIR))
-
+    
+    # Debug info (optional - can remove in production)
+    print(f"🔍 Debug Info:")
+    print(f"   ROOT_DIR: {ROOT_DIR}")
+    print(f"   Files in ROOT: {', '.join(os.listdir(ROOT_DIR)[:5])}...")
+    
     logging.info("Scraping completed successfully")
     logging.info("="*60)
 
 
 if __name__ == "__main__":
     main()
+
+
+
