@@ -1,0 +1,3 @@
+Hello, today I updated my main README.md file.
+I learned about 'with open' command for file handling.
+It's great that Python closes the file automatically!
