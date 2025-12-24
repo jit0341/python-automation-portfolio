@@ -1,0 +1,37 @@
+.
+├── 01-management-systems
+│   ├── contact-manager
+│   │   ├── README.md
+│   │   └── screenshots
+│   ├── expense-tracker
+│   │   ├── README.md
+│   │   └── screenshots
+│   ├── inventory-system
+│   │   ├── README.md
+│   │   └── screenshots
+│   ├── library-management
+│   │   ├── README.md
+│   │   └── screenshots
+│   └── student-grade-manager
+│       ├── README.md
+│       └── screenshots
+├── 02-data-analysis
+│   └── law-office-analytics
+│       ├── README.md
+│       └── screenshots
+├── 03-web-scraping
+│   ├── book-scraper
+│   │   ├── README.md
+│   │   └── screenshots
+│   └── quotes-scraper
+│       ├── README.md
+│       └── screenshots
+├── 04-utilities
+│   └── calculator
+│       └── README.md
+├── LICENSE
+├── README.md
+├── assets
+└── tree_output.txt
+
+23 directories, 12 files

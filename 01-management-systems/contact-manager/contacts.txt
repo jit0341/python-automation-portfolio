@@ -1,0 +1,4 @@
+Mohan Kumar|7891236540|mohan@gmail.com
+Bantu|1234567890|bantu@gmail.com
+Rishi Kumar|2314657980|rishikumar@gmail.com
+Alice|1325476980|alice@test.com

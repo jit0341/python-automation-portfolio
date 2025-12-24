@@ -1,0 +1,3 @@
+Cooler|     8000|10
+Mobile Phones|     25000|40
+Laptops|     65000|30

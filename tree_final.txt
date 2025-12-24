@@ -1,0 +1,49 @@
+.
+├── 01-expense-tracker
+├── 01-management-systems
+│   ├── contact-manager
+│   │   ├── README.md
+│   │   ├── contact_manager.py
+│   │   ├── contacts.txt
+│   │   └── screenshots
+│   ├── expense-tracker
+│   │   ├── README.md
+│   │   └── screenshots
+│   ├── inventory-system
+│   │   ├── README.md
+│   │   ├── inventories.txt
+│   │   ├── inventory_system.py
+│   │   └── screenshots
+│   ├── library-management
+│   │   ├── README.md
+│   │   ├── libraries.txt
+│   │   ├── library_system.py
+│   │   └── screenshots
+│   └── student-grade-manager
+│       ├── README.md
+│       └── screenshots
+├── 02-data-analysis
+│   └── law-office-analytics
+│       ├── README.md
+│       ├── chart_pandas.py
+│       ├── law_office_system.py
+│       └── screenshots
+├── 03-web-scraping
+│   ├── book-scraper
+│   │   ├── README.md
+│   │   └── screenshots
+│   └── quotes-scraper
+│       ├── README.md
+│       └── screenshots
+├── 04-quotes-scraper
+├── 04-utilities
+│   └── calculator
+│       ├── README.md
+│       └── calculator.py
+├── LICENSE
+├── README.md
+├── assets
+├── tree_final.txt
+└── tree_output.txt
+
+23 directories, 24 files
